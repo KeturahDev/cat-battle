@@ -10,14 +10,8 @@ const CatCard = ({
   damage,
   attackFunc,
 }) => {
-  useEffect(() => {
-    console.log("he:", health);
-  }, [health]);
-
   const handleClick = () => {
-    // alert("bam");
     attackFunc(key2);
-    console.log("OOOOO");
   };
   return (
     <div className="card" onClick={handleClick}>

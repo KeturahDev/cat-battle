@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CatCard from "./CatCard";
+import Winner from "./Winner";
 import "../styles/Arena.css";
 
 const Arena = () => {
@@ -10,19 +11,28 @@ const Arena = () => {
 
   const [roundNumber, setRoundNumber] = useState(0);
 
-  console.log("1", cat1.health);
-  console.log("2", cat2.health);
+  useEffect(() => {
+    if (cat1.health < 0) {
+      setWinner(cat2.name);
+    } else if (cat2.health < 0) {
+      setWinner(cat1.name);
+    } else {
+      return;
+    }
+  }, [cat1, cat2]);
 
   useEffect(() => {
-    const cat0 = generateCat();
-    const cat1 = generateCat();
-    setCat1(cat0);
-    setCat2(cat1);
-    setLoading(false);
+    setTimeout(() => {
+      const cat0 = generateCat("2nd");
+      const cat1 = generateCat("3rd");
+      setCat1(cat0);
+      setCat2(cat1);
+      setLoading(false);
+    }, 2000);
   }, [winner]);
 
-  const generateCat = () => {
-    const name = "wow";
+  const generateCat = (hehe) => {
+    const name = `Sir pounce-a-lot the ${hehe}`;
     const maxHealth = Math.ceil(Math.random() * 100);
     const health = Math.ceil(Math.random() * 100);
     const damage = Math.ceil(Math.random() * 10);
@@ -47,32 +57,33 @@ const Arena = () => {
     setRoundNumber(roundNumber + 1);
   };
 
+  console.log(winner);
   return (
     <div>
       {loading ? (
         <p>loading...</p>
       ) : (
-        <>
+        <div className="container">
           <p>Round: {roundNumber}</p>
-          <div className="arena-grid">
-            <CatCard
-              key2={0}
-              name={cat1.name}
-              health={cat1.health}
-              damage={cat1.damage}
-              image={cat1.image}
-              attackFunc={attack}
-            />
-            <CatCard
-              key2={1}
-              name={cat2.name}
-              health={cat2.health}
-              damage={cat2.damage}
-              image={cat2.image}
-              attackFunc={attack}
-            />
-          </div>
-        </>
+          <p>Winner: {winner}</p>
+
+          {winner ? (
+            <Winner name={winner} />
+          ) : (
+            <div className="arena-grid">
+              {[cat1, cat2].map((cat, i) => (
+                <CatCard
+                  key2={i}
+                  name={cat.name}
+                  health={cat.health}
+                  damage={cat.damage}
+                  image={cat.image}
+                  attackFunc={attack}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

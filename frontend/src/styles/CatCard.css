@@ -12,18 +12,24 @@
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 15rem;
+  overflow: hidden;
 }
 
 .image {
+  object-fit: cover;
   display: flex;
   flex-direction: row;
   width: 100%;
+  max-width: 40vw;
+  min-width: 40vw;
 }
 
 .details {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 2rem;
 }
 
 .stats {
