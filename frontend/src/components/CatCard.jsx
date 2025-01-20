@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
+import "../styles/CatCard.css";
 
-const CatCard = ({ image, name, health, maxHealth, damage }) => {
+const CatCard = ({
+  key2,
+  image,
+  name,
+  health,
+  maxHealth,
+  damage,
+  attackFunc,
+}) => {
+  useEffect(() => {
+    console.log("he:", health);
+  }, [health]);
+
   const handleClick = () => {
-    alert("clicked");
+    // alert("bam");
+    attackFunc(key2);
+    console.log("OOOOO");
   };
   return (
-    <div onClick={handleClick}>
-      <img src={image} alt={`${name} image`} />
-      <h3>{name}</h3>
-      <p>{health}</p>
-      <p>{damage}</p>
+    <div className="card" onClick={handleClick}>
+      <div className="imageBox">
+        <img className="image" src={image} alt={`${name} image`} />
+      </div>
+      <div className="details">
+        <h3>{name}</h3>
+        <div className="stats">
+          <p>health: {health}</p>
+          <p>attack: {damage}</p>
+        </div>
+      </div>
     </div>
   );
 };
